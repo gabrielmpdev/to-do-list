@@ -1,14 +1,20 @@
 import './styles.css'
-function TodoTask() {
+import { iTask } from "../interfaces";
+
+interface TaskProps{
+    task: iTask,
+    deleteTask(DeleteTaskById: number) : void,
+}
+function TodoTask({task ,deleteTask} : TaskProps) {
 	
 	return (
 		<div className="card">
 			<div>
-                <p>Fazer lição</p>
+                <p>{task.nameTask}</p>
             </div>
 
             <div className="line2" >
-            <span className="btn-card">X</span>
+            <span onClick={() => deleteTask(task.id)} className="btn-card">X</span>
             </div>
 		</div>
 	);
