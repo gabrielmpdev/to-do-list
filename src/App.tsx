@@ -1,10 +1,10 @@
 import { useState } from "react";
 import TodoTask from "./components/TodoTask";
-
 import './styles/styles.css'
 import { iTask } from "./interfaces";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+
 function App() {
 const [task , setTask] = useState <string> ("")
 const [todoList , setTodoList]  = useState<iTask[]>([])
@@ -15,13 +15,20 @@ function addTask(): void {
 		const idRandom = (num: number) => Math.floor(Math.random() * num)
 		const newTask = { id: idRandom(999999999999999) , nameTask: task }
 		setTodoList([...todoList , newTask ])
+		console.log(newTask)
+		toast.success("Task cadastrada com sucesso!")
+}
 	
 	}
-	toast.success("Task cadastrada com sucesso!")
-}
+
+	
+
 function deleteTask(DeleteTaskById: number) : void {
  setTodoList(todoList.filter((taskName) => taskName.id !== DeleteTaskById))
+ console.log( DeleteTaskById)
+ 
 }
+
 	return (
 		<div className="App">
 <ToastContainer
