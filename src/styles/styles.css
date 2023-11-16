@@ -7,7 +7,15 @@
   flex-direction: column;
   margin: 0 auto;
 }
-
+.ButtonAddTask{
+  font-size: 16px;
+  font-weight: 700;
+  height: 40px;
+  width: 100%;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
 header h2 {
   font-weight: 600;
   color: #84878A;
@@ -43,14 +51,5 @@ header h2 {
   height: 45px;
 }
 
-.btn-header {
-  background-color: #80CB27;
-  font-size: 16px;
-  font-weight: 700;
-
-  color: #fff;
-  border-radius: 5px;
-  cursor: pointer;
-}
 
 

@@ -5,34 +5,26 @@ import { iTask } from "./interfaces";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import ButtonTest from "./components/Button";
-import styled from "styled-components";
+import { ContainerTasks, ResultText ,ContainerFilter, SelectStatus } from './styles/stylesComponents'
 
 function App() {
   const [task, setTask] = useState<string>("");
   const [todoList, setTodoList] = useState<iTask[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<string>(''); // Estado para rastrear o status selecionado
+  const [resultCount, setResultCount] = useState<number>(0); // Estado para rastrear o número de resultados
 
   function addTask(): void {
     if (task === "") {
       toast.error("Digite alguma task.");
     } else {
       const idRandom = (num: number) => Math.floor(Math.random() * num);
-      const newTask = { id: idRandom(999999999999999), nameTask: task, Status: '' }; // Remova o status da criação
+      const newTask = { id: idRandom(999), nameTask: task, Status: '' }; // Remova o status da criação
       setTodoList([...todoList, newTask]);
       console.log(newTask);
       toast.success("Task cadastrada com sucesso!");
-      setTask("")
+      setTask("");
     }
   }
- const ContainerTasks = styled.section `
- display: flex;
- flex-wrap: wrap;
- width: calc(100% - 40px);
- margin: 0 auto;
- justify-content: center;
- gap: 20px
-
- `
 
   function updateTaskStatus(taskId: number, newStatus: string): void {
     const updatedTodoList = todoList.map((task) => {
@@ -44,24 +36,32 @@ function App() {
     setTodoList(updatedTodoList);
   }
 
-  function handleClickButton() {
-    alert("botão clicado");
+  function updateResultCount() {
+    const filteredTasks = todoList.filter((task) => task.Status === selectedStatus);
+    setResultCount(filteredTasks.length);
   }
 
+
+
+  // Mova a leitura do sessionStorage para um local onde você tem certeza de que todoList já foi inicializado
   useEffect(() => {
     const storedTodoList = sessionStorage.getItem("todoList");
+    console.log("Stored Todo List:", storedTodoList);
+
     if (storedTodoList) {
       setTodoList(JSON.parse(storedTodoList));
     }
   }, []);
 
+  // Atualize o sessionStorage sempre que a lista de tarefas mudar
   useEffect(() => {
     sessionStorage.setItem("todoList", JSON.stringify(todoList));
-  }, [todoList]);
+    updateResultCount();
+  }, [todoList, selectedStatus]);
 
   function deleteTask(DeleteTaskById: number): void {
-    setTodoList(todoList.filter((task) => task.id !== DeleteTaskById));
-    console.log(DeleteTaskById);
+    setTodoList(todoList.filter((task) => task.id !== DeleteTaskById))
+    toast.error("Sua tarefa foi apagada.");
   }
 
   const filteredTasks = selectedStatus
@@ -72,7 +72,7 @@ function App() {
     <div className="App">
       <ToastContainer autoClose={2500} pauseOnHover={false} />
       <header className="container-list">
-        <h2>Lists</h2>
+        <h2>To Do List</h2>
         <input
           type="text"
           autoComplete="off"
@@ -82,25 +82,33 @@ function App() {
           value={task}
           onChange={(event) => setTask(event.target.value)}
         />
-        <ButtonTest value="Listar" onClick={handleClickButton} background="red"/>
-        <select
-          value={selectedStatus}
-          onChange={(event) => setSelectedStatus(event.target.value)}
-        >
-          <option value="">Filtrar por Status</option>
-          <option value="To Do">To Do</option>
-          <option value="Em andamento">Em andamento</option>
-          <option value="Bloqueada">Bloqueada</option>
-          <option value="Finalizada">Finalizada</option>
-        </select>
-        <button type="submit" onClick={addTask} className="btn-header">
-          Adicionar Task
-        </button>
+       
+        <ButtonTest Class="ButtonAddTask" value="Adicionar task" background="#80CB27" onClick={addTask}/>
+          
+ 
       </header>
       <div className="line"></div>
+
+      <ContainerFilter>
+      <p> Filtrar por:</p>
+      <SelectStatus
+          value={selectedStatus}
+          onChange={(event) => {
+            setSelectedStatus(event.target.value);
+          }}
+        >
+         
+          <option value="">Selecione</option>
+          <option value="To Do">To Do</option>
+          <option value="In progress">In progress</option>
+          <option value="Bloqueada">Bloqueada</option>
+          <option value="Finalizada">Finalizada</option>
+        </SelectStatus>
+      <ResultText id="result">Tarefas encontradas: {resultCount}</ResultText>
+      </ContainerFilter>
       <ContainerTasks>
         {filteredTasks.map((task, key) => (
-          <TodoTask key={key} task={task} deleteTask={deleteTask} updateTaskStatus={updateTaskStatus}  />
+          <TodoTask key={key} task={task} deleteTask={deleteTask} updateTaskStatus={updateTaskStatus} />
         ))}
       </ContainerTasks>
     </div>
