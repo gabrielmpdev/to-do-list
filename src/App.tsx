@@ -5,7 +5,7 @@ import { iTask } from "./interfaces";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import ButtonTest from "./components/Button";
-import { ContainerTasks, ResultText ,ContainerFilter, SelectStatus } from './styles/stylesComponents'
+import { ContainerTasks, ResultText ,ContainerFilter, SelectStatus , ContainerList} from './styles/stylesComponents'
 
 function App() {
   const [task, setTask] = useState<string>("");
@@ -69,10 +69,10 @@ function App() {
     : todoList;
 
   return (
-    <div className="App">
+    <ContainerList>
       <ToastContainer autoClose={2500} pauseOnHover={false} />
       <header className="container-list">
-        <h2>To Do List</h2>
+        
         <input
           type="text"
           autoComplete="off"
@@ -111,7 +111,7 @@ function App() {
           <TodoTask key={key} task={task} deleteTask={deleteTask} updateTaskStatus={updateTaskStatus} />
         ))}
       </ContainerTasks>
-    </div>
+    </ContainerList>
   );
 }
 

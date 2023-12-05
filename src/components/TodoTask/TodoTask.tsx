@@ -45,6 +45,12 @@ function TodoTask({ task, deleteTask, updateTaskStatus }: TaskProps) {
     } else if (newStatus === "In progress") {
       border = "5px solid orange";
     }
+    else if (newStatus === "Finalizada") {
+      border = "5px solid green";
+    }
+    else if (newStatus === "To Do") {
+      border = "5px solid gray";
+    }
     setCardBorder(border);
     updateTaskStatus(task.id, newStatus);
   

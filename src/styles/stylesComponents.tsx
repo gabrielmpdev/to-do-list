@@ -5,6 +5,10 @@ export const fontes = {
     primaria: "'Nunito Sans', sans-serif"
   };
 
+  export const ContainerList = styled.section `
+  margin-top: 5%;
+  `
+    
 export const ContainerTasks = styled.section `
 display: flex;
 flex-wrap: wrap;
@@ -16,7 +20,17 @@ margin-top:50px;
 
 
 `
+export const HeaderCustom = styled.header `
+background-color: #B0C4DE;
+margin: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+padding: 20px;
+text-transform: capitalize;
+font-size: 20px;
 
+ `
 export  const IconDelete = styled.span ` 
 text-align: end;
 position: absolute;
